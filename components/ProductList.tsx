@@ -1,22 +1,33 @@
+"use client";
+
 import Container from "./ui/Container";
 import ProductCard from "./ui/ProductCard";
+import { useEffect, useState } from "react";
 
-const products = [
-  { id: 1, name: "t-shirt", price: "$25", image: "/images/tshirt.png" },
-  { id: 2, name: "pants", price: "$40", image: "/images/pants.png" },
-  { id: 3, name: "hoodie", price: "$50", image: "/images/hoodie.png" },
-  { id: 4, name: "sneakers", price: "$60", image: "/images/sneakers.png" },
-];
+type Product = {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+};
 
 const ProductList = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
+
   return (
     <Container>
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-4 gap-6">
         {products.map((product) => (
           <ProductCard
             key={product.id}
             name={product.name}
-            price={product.price}
+            price={`$${product.price}`}
             image={product.image}
           />
         ))}
