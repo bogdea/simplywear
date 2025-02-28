@@ -1,4 +1,5 @@
 import Cart from "./ui/Cart";
+import User from "./ui/User";
 import Container from "./ui/Container";
 
 const Navbar = () => {
@@ -8,7 +9,10 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold">simplywear</h1>
 
-          <Cart />
+          <div className="flex gap-2">
+            <User />
+            <Cart />
+          </div>
         </div>
       </Container>
     </nav>
