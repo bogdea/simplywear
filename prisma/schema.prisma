@@ -14,10 +14,30 @@ datasource db {
  directUrl = env("DIRECT_URL")
 }
 
+model User {
+  id        String  @id @default(uuid())
+  email     String  @unique
+  cartItems Cart[]  @relation("UserCart")
+}
+
 model Product {
   id        String  @id @default(uuid())
   name      String
   price     Int
   image     String
   createdAt DateTime @default(now())
+  cartItems Cart[]
 }
+
+model Cart {
+  id        String  @id @default(uuid())
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  user      User?   @relation(fields: [userId], references: [id], name: "UserCart")
+  userId    String?
+  quantity  Int     @default(1)
+  createdAt DateTime @default(now())
+
+  @@unique([productId, userId])
+}
+
