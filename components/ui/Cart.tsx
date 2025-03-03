@@ -36,12 +36,12 @@ const Cart = () => {
           <span className="text-xs">{cart.length}</span>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-60">
+      <DropdownMenuContent className="w-60 space-y-2">
         {cart.length === 0 ? (
           <p className="p-2 text-center">empty</p>
         ) : (
           cart.map((item) => (
-            <Card key={item.id} className="mb-2">
+            <Card key={item.id}>
               <CardContent className="flex items-center gap-2">
                 <img
                   src={item.product.image}
