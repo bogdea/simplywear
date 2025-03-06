@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "simplywear",
@@ -19,6 +20,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1"> {children}</main>
         <Footer />
+        <Toaster theme="light" richColors />
       </body>
     </html>
   );
