@@ -10,12 +10,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "./button";
+import { useCartStore } from "@/store/cart";
+import { toast } from "sonner";
 
 const User = () => {
   const supabase = createClientComponentClient();
   const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { setCart } = useCartStore();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -28,22 +31,22 @@ const User = () => {
 
   const handleSignUp = async () => {
     if (!email || !password) {
-      alert("please enter email and password");
+      toast.error("please enter email and password");
       return;
     }
 
     const { error } = await supabase.auth.signUp({ email, password });
 
     if (error) {
-      alert("sign-up failed: " + error.message);
+      toast.error("sign-up failed: " + error.message);
     } else {
-      alert("sign-up successful! please check your email to confirm");
+      toast.success("sign-up successful! please check your email to confirm");
     }
   };
 
   const handleLogin = async () => {
     if (!email || !password) {
-      alert("please enter email and password");
+      toast.error("please enter email and password");
       return;
     }
 
@@ -53,16 +56,27 @@ const User = () => {
     });
 
     if (error) {
-      alert("login failed: " + error.message);
+      toast.error("login failed: " + error.message);
     } else {
       const { data } = await supabase.auth.getUser();
       setUser(data?.user || null);
+
+      if (data?.user) {
+        const res = await fetch(`/api/cart?userId=${data.user.id}`);
+        if (res.ok) {
+          const cartData = await res.json();
+          setCart(cartData);
+        } else {
+          toast.error("failed to fetch cart items");
+        }
+      }
     }
   };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setUser(null);
+    setCart([]);
   };
 
   return (
