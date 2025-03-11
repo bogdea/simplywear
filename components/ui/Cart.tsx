@@ -84,7 +84,9 @@ const Cart = () => {
           ))
         )}
         <Button className="mt-4 w-full">
-          <Link href={"/checkout"}>finish and pay</Link>
+          <Link href={"/checkout"} className="w-full">
+            finish and pay
+          </Link>
         </Button>
       </DropdownMenuContent>
     </DropdownMenu>
