@@ -28,3 +28,23 @@ export const removeFromCart = async (
       : [],
   );
 };
+
+// remove all products from cart
+export const removeAllFromCart = async (setCart: (cart: any) => void) => {
+  try {
+    const res = await fetch("/api/cart/clear", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      console.error("error clearing cart: " + errorData.error);
+      return;
+    }
+
+    setCart([]);
+  } catch (error: any) {
+    console.error("error clearing cart: " + error.message);
+  }
+};
