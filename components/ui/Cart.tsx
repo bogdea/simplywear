@@ -8,7 +8,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useCartStore } from "@/store/cart";
-import type { CartItem } from "@/store/cart";
+import { Button } from "./button";
+import Link from "next/link";
+import { removeFromCart } from "@/lib/utils";
 
 const Cart = () => {
   const { cart, setCart } = useCartStore();
@@ -25,23 +27,8 @@ const Cart = () => {
     fetchCart();
   }, []);
 
-  const removeFromCart = async (productId: string) => {
-    const res = await fetch("/api/cart", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId }),
-    });
-
-    if (!res.ok) {
-      const errorData = await res.json();
-      return;
-    }
-
-    setCart(
-      Array.isArray(cart)
-        ? cart.filter((item: CartItem) => item.productId !== productId)
-        : [],
-    );
+  const handleRemoveFromCart = (productId: string) => {
+    removeFromCart(productId, setCart, cart);
   };
 
   return (
@@ -83,7 +70,7 @@ const Cart = () => {
                 </div>
 
                 <span
-                  onClick={() => removeFromCart(item.productId)}
+                  onClick={() => handleRemoveFromCart(item.productId)}
                   className="cursor-pointer"
                 >
                   <img
@@ -96,6 +83,9 @@ const Cart = () => {
             </Card>
           ))
         )}
+        <Button className="mt-4 w-full">
+          <Link href={"/checkout"}>finish and pay</Link>
+        </Button>
       </DropdownMenuContent>
     </DropdownMenu>
   );
