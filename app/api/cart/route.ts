@@ -14,7 +14,7 @@ export async function GET() {
     });
 
     return NextResponse.json(cart);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "failed to fetch cart" },
       { status: 500 },
@@ -53,8 +53,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(cartItem);
-  } catch (error) {
-    console.error(error);
+  } catch {
     return NextResponse.json({ status: 500 });
   }
 }
@@ -84,7 +83,7 @@ export async function DELETE(req: Request) {
     });
 
     return NextResponse.json({ message: "item removed" });
-  } catch (error) {
+  } catch {
     toast.error("failed to delete item");
     return NextResponse.json(
       { error: "failed to delete item" },
