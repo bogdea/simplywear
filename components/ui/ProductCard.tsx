@@ -2,8 +2,7 @@
 
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { useState } from "react";
 import { useCartStore } from "@/store/cart";
 
 type ProductCardProps = {
