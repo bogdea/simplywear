@@ -34,12 +34,14 @@ const Checkout = () => {
   );
 
   const handleRemoveFromCart = (productId: string) => {
+    // @ts-ignore
     removeFromCart(productId, setCart, cart);
   };
 
   const handleFakePayment = async () => {
     setPaying(true);
 
+    // @ts-ignore
     await removeAllFromCart(setCart);
 
     setTimeout(() => {
