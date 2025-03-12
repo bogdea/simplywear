@@ -10,6 +10,10 @@ type CartItem = {
   quantity: number;
 };
 
+type ErrorResponse = {
+  error: string;
+};
+
 // remove product from cart
 export const removeFromCart = async (
   productId: string,
@@ -23,7 +27,7 @@ export const removeFromCart = async (
   });
 
   if (!res.ok) {
-    const errorData = await res.json();
+    const errorData: ErrorResponse = await res.json();
     console.error("error removing item:", errorData);
     return;
   }
@@ -42,13 +46,15 @@ export const removeAllFromCart = async (
     });
 
     if (!res.ok) {
-      const errorData = await res.json();
+      const errorData: ErrorResponse = await res.json();
       console.error("error clearing cart: " + errorData.error);
       return;
     }
 
     setCart([]);
-  } catch (error: any) {
-    console.error("error clearing cart: " + error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error clearing cart: " + error.message);
+    }
   }
 };
