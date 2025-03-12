@@ -15,12 +15,7 @@ type ProductCardProps = {
 
 const ProductCard = ({ id, name, price, image }: ProductCardProps) => {
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<any>(null);
   const addToCartStore = useCartStore((state) => state.addToCart);
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
-  }, []);
 
   const addToCart = async () => {
     setLoading(true);
@@ -38,7 +33,6 @@ const ProductCard = ({ id, name, price, image }: ProductCardProps) => {
       const data = text ? JSON.parse(text) : null;
 
       if (data) addToCartStore(data);
-    } catch (error) {
     } finally {
       setLoading(false);
     }
