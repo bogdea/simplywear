@@ -1,14 +1,20 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
+
+type CartItem = {
+  productId: string;
+  quantity: number;
+};
+
 // remove product from cart
 export const removeFromCart = async (
   productId: string,
-  setCart: (cart: any) => void,
-  cart: any,
+  setCart: (cart: CartItem[]) => void,
+  cart: CartItem[],
 ) => {
   const res = await fetch("/api/cart", {
     method: "DELETE",
@@ -22,15 +28,13 @@ export const removeFromCart = async (
     return;
   }
 
-  setCart(
-    Array.isArray(cart)
-      ? cart.filter((item) => item.productId !== productId)
-      : [],
-  );
+  setCart(cart.filter((item) => item.productId !== productId));
 };
 
 // remove all products from cart
-export const removeAllFromCart = async (setCart: (cart: any) => void) => {
+export const removeAllFromCart = async (
+  setCart: (cart: CartItem[]) => void,
+) => {
   try {
     const res = await fetch("/api/cart/clear", {
       method: "DELETE",
