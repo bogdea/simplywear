@@ -34,14 +34,14 @@ const Checkout = () => {
   );
 
   const handleRemoveFromCart = (productId: string) => {
-    // @ts-expect-error
+    // @ts-expect-error: temporarily ignoring type mismatch for setCart
     removeFromCart(productId, setCart, cart);
   };
 
   const handleFakePayment = async () => {
     setPaying(true);
 
-    // @ts-expect-error
+    // @ts-expect-error: temporarily ignoring type mismatch for setCart
     await removeAllFromCart(setCart);
 
     setTimeout(() => {
